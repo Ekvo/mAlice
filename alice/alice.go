@@ -73,14 +73,14 @@ func formatFriendsCount(friendsCount int) string {
 	return fmt.Sprintf("%d друзей", friendsCount)
 }
 
-func whatTime(city string) string {
+func WhatTime(city string) string {
 	offset := uTCOffset[city]
 	currentTime := time.Now().UTC()
 	cityTime := currentTime.Add(time.Duration(offset) * time.Hour)
 	return cityTime.Format("15:04")
 }
 
-func whatWeather(city string) (string, error) {
+func WhatWeather(city string) (string, error) {
 	baseURL := "https://bba4h86i8icpvi5ot97n.containers.yandexcloud.net/go/weather"
 	params := url.Values{}
 	params.Add("0", "")
@@ -119,7 +119,7 @@ func askFriend(friendName, question string) (string, error) {
 		if !exists {
 			return "", fmt.Errorf("не могу определить время в городе: %s", friendCity)
 		}
-		cityTime := whatTime(friendCity)
+		cityTime := WhatTime(friendCity)
 		return fmt.Sprintf("Там сейчас %s", cityTime), nil
 	}
 	// спроси друга о погоде
@@ -128,7 +128,7 @@ func askFriend(friendName, question string) (string, error) {
 		if !exists {
 			return "", fmt.Errorf("не могу определить погоду в городе: %s", friendCity)
 		}
-		return whatWeather(friendCity)
+		return WhatWeather(friendCity)
 	}
 	
 	return "", errUndefinedQuestion
